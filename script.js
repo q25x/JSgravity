@@ -68,10 +68,10 @@ rule = (particles1, particles2, g) => {
         b.x -= b.vx * a.size * 0.001
         b.y -= b.vy * a.size * 0.001
 
-        if(a.x <= 1 || a.x >= 3999) {a.vx *= -1}
-        if(a.y <= 1 || a.y >= 3999) {a.vy *= -1}
-        if(b.x <= 1 || b.x >= 3999) {b.vx *= -1}
-        if(b.y <= 1 || b.y >= 3999) {b.vy *= -1}
+        if(a.x <= 1 || a.x >= 3999) {a.x *= -1}
+        if(a.y <= 1 || a.y >= 3999) {a.y *= -1}
+        if(b.x <= 1 || b.x >= 3999) {b.x *= -1}
+        if(b.y <= 1 || b.y >= 3999) {b.y *= -1}
         
     }
 }
@@ -81,14 +81,14 @@ rule = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-blue = create(1, "blue", "#000", 400, 2000, 2000)
-green = create(1, "#0f0", "#000", 5, null, null, 0, 70)
+blue = create(1, "blue", "#000", 100, 2000, 2000)
+green = create(10, "#0f0", "#000", 5, null, null, 0, 70)
 
 update=()=>{
 
     //   -- Rules --
     rule(green, blue, 1)
-    rule(green, green, 1)
+    rule(green, green, 0.1)
    // rule(blue, green, 0.001)
     
 //    rule(red, green, 0.1)
@@ -97,6 +97,8 @@ update=()=>{
 //    rule(green, red, 0.25)
 //    rule(blue, red, 0.01)
 //    rule(blue, green, 0.01)
+particles[0].x = 2000
+particles[0].y = 2000
     //  -- The End --
 
     m.clearRect(0, 0, 4000, 4000)
@@ -105,13 +107,13 @@ update=()=>{
         drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
     }
     requestAnimationFrame(update)
-    velocity = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
+    //velocity = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
     
-    divc.innerHTML = "Velocity: " + velocity.toFixed(3)
+    //divc.innerHTML = "Velocity: " + velocity.toFixed(3)
 }
-div = document.getElementById("box")
-divc = document.createElement("div")
-div.append(divc)
+// div = document.getElementById("box")
+// divc = document.createElement("div")
+// div.append(divc)
 // setInterval(() => {
 //     update();
 // },700);
