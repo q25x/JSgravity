@@ -9,7 +9,7 @@ drawcrc = (x,y,c,c2,s) => {
    m.arc(x, y, s + 2, 0, 2 * Math.PI, true)
    m.closePath()
    m.fillStyle = c
-   m.fill()
+   //m.fill()
    m.strokeStyle = c2
    m.lineWidth = 2
    m.stroke()
@@ -18,8 +18,8 @@ drawcrc = (x,y,c,c2,s) => {
 
 
 particles = []
-particle = (x,y,c,s,vx,vy) => { 
-    return { x: x, y: y, vx: vx, vy: vy, color: c, size: s}
+particle = (x,y,c,c2,s,vx,vy) => { 
+    return { x: x, y: y, vx: vx, vy: vy, color: c, color2: c2, size: s}
 }
 
 random = () => {
@@ -30,7 +30,7 @@ create = (number, color, color2, size, x, y, vx, vy) => {
     group = []
     for (i=0; i<number; i++) {
         
-        group.push(particle(x || random(), y || random(), color, size, vx || 0, vy || 0))
+        group.push(particle(x || random(), y || random(), color, color2, size, vx || 0, vy || 0))
         particles.push(group[i])
     }
     return group
@@ -42,8 +42,8 @@ create = (number, color, color2, size, x, y, vx, vy) => {
 rule = (particles1, particles2, g) => {
     g *= -1
     for (i=0; i < particles1.length; i++) {
-        fx = 0
-        fy = 0
+        //fx = 0
+        //fy = 0
         for (j=0; j < particles2.length; j++) {
             a = particles1[i]
             b = particles2[j]
@@ -59,13 +59,20 @@ rule = (particles1, particles2, g) => {
             }
         }
         //      kms
-        a.vx = (a.vx + fx) * 1.0
-        a.vy = (a.vy + fy) * 1.0
-        a.x += a.vx
-        a.y += a.vy
+        a.vx = (a.vx + fx)
+        a.vy = (a.vy + fy)
+        a.x += a.vx * b.size * 0.001
+        a.y += a.vy * b.size * 0.001
+        b.vx = (b.vx + fx)
+        b.vy = (b.vy + fy)
+        b.x -= b.vx * a.size * 0.001
+        b.y -= b.vy * a.size * 0.001
 
         if(a.x <= 1 || a.x >= 999) {a.vx *= -1}
         if(a.y <= 1 || a.y >= 999) {a.vy *= -1}
+        if(b.x <= 1 || b.x >= 999) {b.vx *= -1}
+        if(b.y <= 1 || b.y >= 999) {b.vy *= -1}
+        
     }
 }
 
@@ -74,14 +81,14 @@ rule = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-blue = create(1, "#00f", "#00f", 40, 500, 500)
-green = create(1, "#0f0", "#0f0", 1, 800, 500, 0, 17.5)
+blue = create(1, "blue", "#000", 100, 500, 500)
+green = create(1, "#0f0", "#000", 1, 800, 500, 0, 57.5)
 
 update=()=>{
 
     //   -- Rules --
     rule(green, blue, 1)
-    rule(blue, green, 0.001)
+   // rule(blue, green, 0.001)
     
 //    rule(red, green, 0.1)
 //    rule(red, blue, 0.1)
@@ -91,7 +98,7 @@ update=()=>{
 //    rule(blue, green, 0.01)
     //  -- The End --
 
-    // m.clearRect(0, 0, 1000, 1000)
+    m.clearRect(0, 0, 1000, 1000)
     draw(0, 0, "black", 1000)
     for (i=0; i<particles.length; i++) {
         drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
