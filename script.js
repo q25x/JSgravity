@@ -4,13 +4,13 @@ draw = (x,y,c,s) => {
     m.fillStyle = c[1]
     m.fillRect(x,y,s,s)
 }
-drawcrc = (x,y,c,s) => {
+drawcrc = (x,y,c,c2,s) => {
    m.beginPath()
    m.arc(x, y, s + 2, 0, 2 * Math.PI, true)
    m.closePath()
-   //m.fillStyle = c[0]
+   m.fillStyle = c
    m.fill()
-   m.strokeStyle = c[1]
+   m.strokeStyle = c2
    m.lineWidth = 2
    m.stroke()
 
@@ -26,7 +26,7 @@ random = () => {
     return Math.round(Math.random()*900+50)
 }
 
-create = (number, color, size, x, y, vx, vy) => {
+create = (number, color, color2, size, x, y, vx, vy) => {
     group = []
     for (i=0; i<number; i++) {
         
@@ -74,8 +74,8 @@ rule = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-blue = create(1, ["#00f", "#00f"], 50, 500, 500)
-green = create(1, ["#0f0","#0f0"], 1, 800, 500, 5, 10)
+blue = create(1, "#00f", "#00f", 40, 500, 500)
+green = create(1, "#0f0", "#0f0", 1, 800, 500, 0, 17.5)
 
 update=()=>{
 
@@ -94,16 +94,16 @@ update=()=>{
     // m.clearRect(0, 0, 1000, 1000)
     draw(0, 0, "black", 1000)
     for (i=0; i<particles.length; i++) {
-        drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].size)
+        drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
     }
     requestAnimationFrame(update)
-    fast = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
+    velocity = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
     
-    div2.innerHTML = "Velocity: " + fast.toFixed(3)
+    divc.innerHTML = "Velocity: " + velocity.toFixed(3)
 }
 div = document.getElementById("box")
-div2 = document.createElement("div")
-div.append(div2)
+divc = document.createElement("div")
+div.append(divc)
 // setInterval(() => {
 //     update();
 // },700);
