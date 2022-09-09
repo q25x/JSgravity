@@ -32,6 +32,11 @@ span::after {
     z-index: 2;
     animation: disappear 0.5s forwards ease-in-out
 }*/
+div:not(#box) {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size:large;
+    transform: translateY(-5rem);
+}
 canvas {
     transform: scale(0.9) translateY(-3em);
 }

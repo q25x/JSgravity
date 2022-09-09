@@ -99,7 +99,7 @@ update=()=>{
     requestAnimationFrame(update)
     fast = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
     
-    div2.innerHTML = "Velocity: " + toString(Math.round(fast))
+    div2.innerHTML = "Velocity: " + fast.toFixed(3)
 }
 div = document.getElementById("box")
 div2 = document.createElement("div")
