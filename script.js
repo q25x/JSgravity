@@ -11,7 +11,7 @@ drawcrc = (x,y,c,c2,s) => {
    m.fillStyle = "#0f0"
    m.fill()
    m.strokeStyle = c2
-   m.lineWidth = 2
+   m.lineWidth = 5
    m.stroke()
 
 }
@@ -23,7 +23,7 @@ particle = (x,y,c,c2,s,vx,vy) => {
 }
 
 random = () => {
-    return Math.round(Math.random()*900+50)
+    return Math.round(Math.random()*3900+50)
 }
 
 create = (number, color, color2, size, x, y, vx, vy) => {
@@ -68,10 +68,10 @@ rule = (particles1, particles2, g) => {
         b.x -= b.vx * a.size * 0.001
         b.y -= b.vy * a.size * 0.001
 
-        if(a.x <= 1 || a.x >= 999) {a.vx *= -1}
-        if(a.y <= 1 || a.y >= 999) {a.vy *= -1}
-        if(b.x <= 1 || b.x >= 999) {b.vx *= -1}
-        if(b.y <= 1 || b.y >= 999) {b.vy *= -1}
+        if(a.x <= 1 || a.x >= 3999) {a.vx *= -1}
+        if(a.y <= 1 || a.y >= 3999) {a.vy *= -1}
+        if(b.x <= 1 || b.x >= 3999) {b.vx *= -1}
+        if(b.y <= 1 || b.y >= 3999) {b.vy *= -1}
         
     }
 }
@@ -81,14 +81,14 @@ rule = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-blue = create(1, "blue", "#000", 100, 500, 500)
-green = create(2, "#0f0", "#000", 1, 800, 500, 0, 57.5)
+blue = create(1, "blue", "#000", 400, 2000, 2000)
+green = create(1, "#0f0", "#000", 5, null, null, 0, 70)
 
 update=()=>{
 
     //   -- Rules --
     rule(green, blue, 1)
-    rule(green, green, 20)
+    rule(green, green, 1)
    // rule(blue, green, 0.001)
     
 //    rule(red, green, 0.1)
@@ -99,8 +99,8 @@ update=()=>{
 //    rule(blue, green, 0.01)
     //  -- The End --
 
-    m.clearRect(0, 0, 1000, 1000)
-    draw(0, 0, "black", 1000)
+    m.clearRect(0, 0, 4000, 4000)
+    draw(0, 0, "black", 4000)
     for (i=0; i<particles.length; i++) {
         drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
     }
