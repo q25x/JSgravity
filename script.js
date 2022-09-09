@@ -8,7 +8,7 @@ drawcrc = (x,y,c,c2,s) => {
    m.beginPath()
    m.arc(x, y, s + 2, 0, 2 * Math.PI, true)
    m.closePath()
-   m.fillStyle()
+   m.fillStyle = "#0f0"
    m.fill()
    m.strokeStyle = c2
    m.lineWidth = 2
@@ -82,12 +82,13 @@ rule = (particles1, particles2, g) => {
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
 blue = create(1, "blue", "#000", 100, 500, 500)
-green = create(1, "#0f0", "#000", 1, 800, 500, 0, 57.5)
+green = create(2, "#0f0", "#000", 1, 800, 500, 0, 57.5)
 
 update=()=>{
 
     //   -- Rules --
     rule(green, blue, 1)
+    rule(green, green, 20)
    // rule(blue, green, 0.001)
     
 //    rule(red, green, 0.1)
