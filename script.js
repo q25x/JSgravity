@@ -1,24 +1,24 @@
 m = document.getElementById("lyf").getContext('2d')
 
-draw = (x,y,c,s) => {
-    m.fillStyle = c[1]
+draw = (x,y,c,c2,s) => {
+    m.fillStyle = c
     m.fillRect(x,y,s,s)
 }
 drawcrc = (x,y,c,c2,s) => {
    m.beginPath()
    m.arc(x, y, s + 2, 0, 2 * Math.PI, true)
+   m.fillStyle = c
+   m.fill()
    m.strokeStyle = c2
-   m.lineWidth = 50
+   m.lineWidth = 5
    m.stroke()
 
 }
 
 
 particles = []
-particle = (x,y,c,c2,s,vx,vy,add) => { 
-    return { x: x, y: y, vx: vx, vy: vy, color: c, color2: c2, size: s,
-    
-    }
+particle = (x,y,c,c2,s,vx,vy) => { 
+    return { x: x, y: y, vx: vx, vy: vy, color: c, color2: c2, size: s}
 }
 
 
@@ -28,8 +28,8 @@ random = () => {
 
 create = (number, color, color2, size, x, y, vx, vy) => {
     group = []
-    len = particles.length
-    for (i=len; i<number+len; i++) {
+    for (i=0; i<number; i++) {
+        
         group.push(particle(x || random(), y || random(), color, color2, size, vx || 0, vy || 0))
         particles.push(group[i])
     }
@@ -39,6 +39,7 @@ create = (number, color, color2, size, x, y, vx, vy) => {
 // T H E  G R A V I T Y  M U L T I P L I E R
 
 rule = (particles1, particles2, g) => {
+    g ||= 1
     g *= -1
     for (i=0; i < particles1.length; i++) {
         fx = 0
@@ -80,15 +81,15 @@ rule = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-blue = create(1, "blue", "#fff", 100, 2000, 2000)
-green = create(1, "#0f0", "#333", 5, 550, 550, 0, 70)
+blue = create(1, "blue", "blue", 100, 2000, 2000)
+green = create(1, "green", "green", 5, Math.random()*100+2500, 2000, 0, 70)
 
 
 update=()=>{
 
     //   -- Rules --
-    rule(green, blue, 1)
-    rule(green, green, 0.1)
+    rule(green, blue)
+    rule(green, green)
    // rule(blue, green, 0.001)
     
 //    rule(red, green, 0.1)
@@ -101,8 +102,9 @@ particles[0].x = 2000
 particles[0].y = 2000
     //  -- The End --
 
-    //m.clearRect(0, 0, 4000, 4000)
-    //draw(0, 0, "black", 4000)
+    m.clearRect(0, 0, 4000, 4000)
+    m.fillStyle = "black"
+    m.fillRect(0, 0, 4000, 4000)
     for (i=0; i<particles.length; i++) {
         drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
     }
