@@ -7,20 +7,20 @@ draw = (x,y,c,s) => {
 drawcrc = (x,y,c,c2,s) => {
    m.beginPath()
    m.arc(x, y, s + 2, 0, 2 * Math.PI, true)
-   m.closePath()
-   m.fillStyle = "#0f0"
-   m.fill()
    m.strokeStyle = c2
-   m.lineWidth = 5
+   m.lineWidth = 50
    m.stroke()
 
 }
 
 
 particles = []
-particle = (x,y,c,c2,s,vx,vy) => { 
-    return { x: x, y: y, vx: vx, vy: vy, color: c, color2: c2, size: s}
+particle = (x,y,c,c2,s,vx,vy,add) => { 
+    return { x: x, y: y, vx: vx, vy: vy, color: c, color2: c2, size: s,
+    
+    }
 }
+
 
 random = () => {
     return Math.round(Math.random()*3900+50)
@@ -28,22 +28,21 @@ random = () => {
 
 create = (number, color, color2, size, x, y, vx, vy) => {
     group = []
-    for (i=0; i<number; i++) {
-        
+    len = particles.length
+    for (i=len; i<number+len; i++) {
         group.push(particle(x || random(), y || random(), color, color2, size, vx || 0, vy || 0))
         particles.push(group[i])
     }
     return group
 }
-
 // T H E  G R A V I T Y  M U L T I P L I E R
 // T H E  G R A V I T Y  M U L T I P L I E R
 
 rule = (particles1, particles2, g) => {
     g *= -1
     for (i=0; i < particles1.length; i++) {
-        //fx = 0
-        //fy = 0
+        fx = 0
+        fy = 0
         for (j=0; j < particles2.length; j++) {
             a = particles1[i]
             b = particles2[j]
@@ -81,8 +80,9 @@ rule = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-blue = create(1, "blue", "#000", 100, 2000, 2000)
-green = create(10, "#0f0", "#000", 5, null, null, 0, 70)
+blue = create(1, "blue", "#fff", 100, 2000, 2000)
+green = create(1, "#0f0", "#333", 5, 550, 550, 0, 70)
+
 
 update=()=>{
 
@@ -101,8 +101,8 @@ particles[0].x = 2000
 particles[0].y = 2000
     //  -- The End --
 
-    m.clearRect(0, 0, 4000, 4000)
-    draw(0, 0, "black", 4000)
+    //m.clearRect(0, 0, 4000, 4000)
+    //draw(0, 0, "black", 4000)
     for (i=0; i<particles.length; i++) {
         drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
     }
