@@ -6,13 +6,20 @@ draw = (x,y,c,c2,s) => {
 }
 drawcrc = (x,y,c,c2,s) => {
    m.beginPath()
-   m.arc(x, y, s + 5, 0, 2 * Math.PI, true)
+   m.arc(x, y, s, 0, 2 * Math.PI, true)
    m.fillStyle = c
    m.fill()
    m.strokeStyle = c2
    m.lineWidth = 10
    m.stroke()
 
+}
+drawvec = (x, y, vx, vy) => {
+    m.beginPath()
+    m.moveTo(x, y)
+    m.lineTo(x + vx, y + vy)
+    m.strokeStyle = "white"
+    m.stroke()
 }
 
 
@@ -38,9 +45,7 @@ create = (number, color, color2, size, x, y, vx, vy) => {
 // T H E  G R A V I T Y  M U L T I P L I E R
 // T H E  G R A V I T Y  M U L T I P L I E R
 
-gravity = (particles1, particles2, g) => {
-    g ||= 1
-    g *= -1
+gravity = (particles1, particles2) => {
     for (i=0; i < particles1.length; i++) {
         fx = 0
         fy = 0
@@ -50,10 +55,13 @@ gravity = (particles1, particles2, g) => {
             dx = a.x - b.x
             dy = a.y - b.y
 
-            d = Math.sqrt(dx * dx + dy * dy)
+                //odleglosc^2
+            d = dx * dx + dy * dy
             
             if (d > 0) {
-                F = g * (1 / d)
+                // f = ma
+                F = (a.size * b.size) / d
+
                 fx = (F * dx)
                 fy = (F * dy)
             }
@@ -61,19 +69,22 @@ gravity = (particles1, particles2, g) => {
         //      kms
         a.vx = (a.vx + fx)
         a.vy = (a.vy + fy)
-        a.x += a.vx * b.size * 0.001
-        a.y += a.vy * b.size * 0.001
+        a.x += a.vx * b.size
+        a.y += a.vy * b.size
+        
         b.vx = (b.vx + fx)
         b.vy = (b.vy + fy)
-        b.x -= b.vx * a.size * 0.001
-        b.y -= b.vy * a.size * 0.001
+        b.x += b.vx * a.size
+        b.y += b.vy * a.size
 
         if(a.x <= 1 || a.x >= 3999) {a.vx *= -1}
         if(a.y <= 1 || a.y >= 3999) {a.vy *= -1}
         if(b.x <= 1 || b.x >= 3999) {b.vx *= -1}
         if(b.y <= 1 || b.y >= 3999) {b.vy *= -1}
-        if(a.x <= b.x + b.size && a.x >= b.x - b.size) {a.vx *= -0.9}
-        if(a.y <= b.y + b.size && a.y >= b.y - b.size) {a.vy *= -0.9}
+        
+        if(d <= b.size + a.size) {
+            
+        }
     }
 }
 
@@ -82,14 +93,14 @@ gravity = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-slonce = create(1, "#ffb226", "#f48225", 150, 1000, 1000, 0, 0)
-ziemia = create(1, "#22a6f2", "#1771a5", 150, 3000, 3000, 0, 0)
+orange = create(1, "#ffb226", "#f48225", 40, 1000, 1000, 0, 100)
+blue = create(1, "#22a6f2", "#1771a5", 100, 3000, 3000, 0, 0)
 
 
 update=()=>{
 
     //   -- Rules --
-    gravity(slonce, ziemia)
+    gravity(blue, orange)
 // particles[0].x = 2000
 // particles[0].y = 2000
     //  -- The End --
@@ -99,6 +110,7 @@ update=()=>{
     m.fillRect(0, 0, 4000, 4000)
     for (i=0; i<particles.length; i++) {
         drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
+        drawvec(particles[i].x, particles[i].y, particles[i].vx, particles[i].vy)
     }
     requestAnimationFrame(update)
     velocity = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
