@@ -38,7 +38,7 @@ create = (number, color, color2, size, x, y, vx, vy) => {
 // T H E  G R A V I T Y  M U L T I P L I E R
 // T H E  G R A V I T Y  M U L T I P L I E R
 
-rule = (particles1, particles2, g) => {
+gravity = (particles1, particles2, g) => {
     g ||= 1
     g *= -1
     for (i=0; i < particles1.length; i++) {
@@ -68,11 +68,12 @@ rule = (particles1, particles2, g) => {
         b.x -= b.vx * a.size * 0.001
         b.y -= b.vy * a.size * 0.001
 
-        if(a.x <= 1 || a.x >= 3999) {a.x *= -1}
-        if(a.y <= 1 || a.y >= 3999) {a.y *= -1}
-        if(b.x <= 1 || b.x >= 3999) {b.x *= -1}
-        if(b.y <= 1 || b.y >= 3999) {b.y *= -1}
-        
+        if(a.x <= 1 || a.x >= 3999) {a.vx *= -1}
+        if(a.y <= 1 || a.y >= 3999) {a.vy *= -1}
+        if(b.x <= 1 || b.x >= 3999) {b.vx *= -1}
+        if(b.y <= 1 || b.y >= 3999) {b.vy *= -1}
+        if(a.x <= b.x + b.size && a.x >= b.x - b.size) {a.vx *= -0.9}
+        if(a.y <= b.y + b.size && a.y >= b.y - b.size) {a.vy *= -0.9}
     }
 }
 
@@ -81,14 +82,14 @@ rule = (particles1, particles2, g) => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-slonce = create(1, "#ffb226", "#f48225", 500, 2000, 2000, 0, 50)
-ziemia = create(1, "#22a6f2", "#1771a5", 1, 3000, 2000, 0, 45)
+slonce = create(1, "#ffb226", "#f48225", 150, 1000, 1000, 0, 0)
+ziemia = create(1, "#22a6f2", "#1771a5", 150, 3000, 3000, 0, 0)
 
 
 update=()=>{
 
     //   -- Rules --
-    rule(slonce, ziemia)
+    gravity(slonce, ziemia)
 // particles[0].x = 2000
 // particles[0].y = 2000
     //  -- The End --
@@ -102,7 +103,7 @@ update=()=>{
     requestAnimationFrame(update)
     velocity = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
     
-    divc.innerHTML = "Velocity: " + velocity.toFixed(3)
+    divc.innerHTML = "velocity: " + velocity.toFixed(3)
 }
  div = document.getElementById("box")
  divc = document.createElement("div")
