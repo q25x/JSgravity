@@ -1,0 +1,114 @@
+m = document.getElementById("lyf").getContext('2d')
+
+draw = (x,y,c,s) => {
+    m.fillStyle = c[1]
+    m.fillRect(x,y,s,s)
+}
+drawcrc = (x,y,c,s) => {
+   m.beginPath()
+   m.arc(x, y, s + 2, 0, 2 * Math.PI, true)
+   m.closePath()
+   //m.fillStyle = c[0]
+   m.fill()
+   m.strokeStyle = c[1]
+   m.lineWidth = 2
+   m.stroke()
+
+}
+
+
+particles = []
+particle = (x,y,c,s,vx,vy) => { 
+    return { x: x, y: y, vx: vx, vy: vy, color: c, size: s}
+}
+
+random = () => {
+    return Math.round(Math.random()*900+50)
+}
+
+create = (number, color, size, x, y, vx, vy) => {
+    group = []
+    for (i=0; i<number; i++) {
+        
+        group.push(particle(x || random(), y || random(), color, size, vx || 0, vy || 0))
+        particles.push(group[i])
+    }
+    return group
+}
+
+// T H E  G R A V I T Y  M U L T I P L I E R
+// T H E  G R A V I T Y  M U L T I P L I E R
+
+rule = (particles1, particles2, g) => {
+    g *= -1
+    for (i=0; i < particles1.length; i++) {
+        fx = 0
+        fy = 0
+        for (j=0; j < particles2.length; j++) {
+            a = particles1[i]
+            b = particles2[j]
+            dx = a.x - b.x
+            dy = a.y - b.y
+
+            d = Math.sqrt(dx * dx + dy * dy)
+            
+            if (d > 0) {
+                F = g * (1 / d)
+                fx = (F * dx)
+                fy = (F * dy)
+            }
+        }
+        //      kms
+        a.vx = (a.vx + fx) * 1.0
+        a.vy = (a.vy + fy) * 1.0
+        a.x += a.vx
+        a.y += a.vy
+
+        if(a.x <= 1 || a.x >= 999) {a.vx *= -1}
+        if(a.y <= 1 || a.y >= 999) {a.vy *= -1}
+    }
+}
+
+
+// partikle
+
+//red = create(1, ["#f00", "#400"], 5)
+//green = create(1, ["#0f0", "#040"], 2)
+blue = create(1, ["#00f", "#00f"], 50, 500, 500)
+green = create(1, ["#0f0","#0f0"], 1, 800, 500, 5, 10)
+
+update=()=>{
+
+    //   -- Rules --
+    rule(green, blue, 1)
+    rule(blue, green, 0.001)
+    
+//    rule(red, green, 0.1)
+//    rule(red, blue, 0.1)
+//    rule(green, blue, 0.25)
+//    rule(green, red, 0.25)
+//    rule(blue, red, 0.01)
+//    rule(blue, green, 0.01)
+    //  -- The End --
+
+    // m.clearRect(0, 0, 1000, 1000)
+    draw(0, 0, "black", 1000)
+    for (i=0; i<particles.length; i++) {
+        drawcrc(particles[i].x, particles[i].y, particles[i].color, particles[i].size)
+    }
+    requestAnimationFrame(update)
+    fast = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
+    
+    div2.innerHTML = "Velocity: " + toString(Math.round(fast))
+}
+div = document.getElementById("box")
+div2 = document.createElement("div")
+div.append(div2)
+// setInterval(() => {
+//     update();
+// },700);
+
+// setInterval(() => {
+//     console.log(particles[1])
+// }, 500);
+update();
