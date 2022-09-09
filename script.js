@@ -8,8 +8,8 @@ drawcrc = (x,y,c,c2,s) => {
    m.beginPath()
    m.arc(x, y, s + 2, 0, 2 * Math.PI, true)
    m.closePath()
-   m.fillStyle = c
-   //m.fill()
+   m.fillStyle()
+   m.fill()
    m.strokeStyle = c2
    m.lineWidth = 2
    m.stroke()
