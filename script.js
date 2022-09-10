@@ -115,7 +115,7 @@ updatePhysics = () => {
 
 //  - - -    partikle    - - -
 create(1, "#ffb226", "#f48225", 20, 2000, 2000, 0, 0)
-create(1, "#ffb226", "#f48225", 2, 2000, 2140, 4, 0)
+create(1, "#4ab8ff", "#3380b2", 2, 2000, 2140, 4, 0)
 // - - - koniec partikli - - -
 
 
