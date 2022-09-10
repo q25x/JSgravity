@@ -38,7 +38,7 @@ random = (min, max) => {
 
 create = (count, color, color2, size, x, y, vx, vy) => {
     for (i=0; i<count; i++) {
-        particles.push(particle(x || random(size, MSIZE-size), y || random(size, MSIZE-size), color, color2, size || random(60,100), vx || 0, vy || 0))
+        particles.push(particle(x || random(size, MSIZE-size), y || random(size, MSIZE-size), color, color2, size || random(6,10), vx || 0, vy || 0))
     }
 }
 // T H E  G R A V I T Y  M U L T I P L I E R
@@ -61,23 +61,23 @@ updatePhysics = () => {
             dy = (p2.y - p.y)
             d = Math.sqrt(dx * dx + dy * dy)
 
-            f = G * (p.m * p2.m) / d^2
+            f = G * (p.m * p2.m) / (d)
 
-            if (d <= p.size + p2.size)
-            {
-                //p.vx *= -1
-                //p.vy *= -1
-            }
-
-
+            
+            
             fx += dx/d * f
             fy += dy/d * f
-            drawVec(p.x, p.y, dx/d * f*0.01, dy/d * f*0.01)  
+            if (d <= p.size + p2.size)
+            {
+                p.vx += -fx * 0.001 * (p2.m / p.m)
+                p.vy += -fy * 0.001 * (p2.m / p.m)
+                p2.vx += fx * 0.001 * (p.m / p2.m)
+                p2.vy += fy * 0.001 * (p.m / p2.m)
+            }
         }
         
-        
-
-        // drawVec(p.x, p.y, fx*0.1, fy*0.1)
+        // rysowanie wektora sily
+        //drawVec(p.x, p.y, fx, fy)  
 
         p.ax = fx / p.m
         p.ay = fy / p.m
@@ -103,8 +103,8 @@ updatePhysics = () => {
 
 //red = create(1, ["#f00", "#400"], 5)
 //green = create(1, ["#0f0", "#040"], 2)
-create(1, "#ffb226", "#f48225", null, null, null, 0, 0)
-create(1, "#ffb226", "#f48225", null, null, null, 0, 0)
+create(1, "#ffb226", "#f48225", 20, 2000, 2000, 0, 0)
+create(1, "#ffb226", "#f48225", 2, 2000, 2140, 4, 0)
 //create(1, "#ffb226", "#f48225", null, null, null, 0, 0)
 //create("#22a6f2", "#1771a5", 100, 3000, 3000, 0, 0)
 
@@ -122,21 +122,21 @@ update=()=>{
 
     for (i=0; i<particles.length; i++) {
         drawCrc(particles[i].x, particles[i].y, particles[i].color, particles[i].color2, particles[i].size)
-       // drawVec(particles[i].x, particles[i].y, particles[i].vx, particles[i].vy)
+        //drawVec(particles[i].x, particles[i].y, particles[i].vx, particles[i].vy)
     }
     requestAnimationFrame(update)
-    //velocity = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
+    velocity = Math.sqrt(particles[1].vx * particles[1].vx + particles[1].vy * particles[1].vy)
     
-    //divc.innerHTML = "velocity: " + velocity.toFixed(3)
+    // divc.innerHTML = "velocity: " + velocity.toFixed(3)
 }
-//  div = document.getElementById("box")
-//  divc = document.createElement("div")
-//  div.append(divc)
+// div = document.getElementById("box")
+// divc = document.createElement("div")
+//div.append(divc)
 // setInterval(() => {
 //     update()
 // },15);
 
-// setInterval(() => {
-//     console.log(particles[1])
-// }, 500);
+setInterval(() => {
+    console.log(velocity)
+}, 500);
 update();
