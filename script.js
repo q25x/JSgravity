@@ -78,11 +78,11 @@ updatePhysics = () => {
             if (d <= p.size + p2.size)
             {
                 // predkosc = wektor sily * sila * stosunek mas
-                p.vx += -fx * 0.001 * (p2.m / p.m)
-                p.vy += -fy * 0.001 * (p2.m / p.m)
+                p.vx += -fx * 0.0001 * (p2.m / p.m)
+                p.vy += -fy * 0.0001 * (p2.m / p.m)
 
-                p2.vx += fx * 0.001 * (p.m / p2.m)
-                p2.vy += fy * 0.001 * (p.m / p2.m)
+                p2.vx += fx * 0.0001 * (p.m / p2.m)
+                p2.vy += fy * 0.0001 * (p.m / p2.m)
             }
         }
         
@@ -102,8 +102,8 @@ updatePhysics = () => {
         p.y += p.vy
     
         //odbicie od mapy
-        if (p.x - p.size < 0 || p.x + p.size > MSIZE) {p.vx *= -0.99}
-        if (p.y - p.size < 0 || p.y + p.size > MSIZE) {p.vy *= -0.99}
+        if (p.x < 0 || p.x > MSIZE) {p.vx *= -0.99}
+        if (p.y < 0 || p.y > MSIZE) {p.vy *= -0.99}
 
 
         
@@ -115,7 +115,7 @@ updatePhysics = () => {
 
 //  - - -    partikle    - - -
 create(1, "#ffb226", "#f48225", 20, 2000, 2000, 0, 0)
-create(1, "#4ab8ff", "#3380b2", 2, 2000, 2140, 4, 0)
+create(1, "#4ab8ff", "#3380b2", 2, 2000, 2200, 4, 0)
 // - - - koniec partikli - - -
 
 
