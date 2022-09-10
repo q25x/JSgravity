@@ -77,7 +77,7 @@ updatePhysics = () => {
                 // kolizje
             if (d <= p.size + p2.size)
             {
-                // predkosc = wektor sily * sila * stosunek mas 
+                // predkosc = wektor sily * sila * stosunek mas
                 p.vx += -fx * 0.001 * (p2.m / p.m)
                 p.vy += -fy * 0.001 * (p2.m / p.m)
 
